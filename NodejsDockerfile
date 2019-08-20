@@ -1,0 +1,15 @@
+ROM keymetrics/pm2:latest-alpine
+
+WORKDIR /opt/my-app
+# Bundle APP files
+COPY my-app /opt/my-app
+
+# Install app dependencies
+# ENV NPM_CONFIG_LOGLEVEL warn
+RUN npm install
+RUN npm run build-prod
+
+# Show current folder structure in logs
+# RUN ls -al -R
+
+CMD [ "pm2runtime", "start", "server.js" ]
