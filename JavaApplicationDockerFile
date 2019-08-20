@@ -1,0 +1,14 @@
+FROM anapsix/alpine-java:8
+
+		ARG ARTIFACT_PATH=./hml.war
+
+		ENV CONFIG_FILE=''
+
+		EXPOSE 8080
+
+		ADD ${ARTIFACT_PATH} ./hml.war
+
+		ENTRYPOINT ["sh", "-c", "java -jar ./hml.war --spring.config.location=file:${CONFIG_FILE}/"]
+
+		HEALTHCHECK --interval=1m --timeout=20s --retries=5 CMD curl --fail http://localhost:8080/api/platform/v1/actuator/health || exit 1
+
